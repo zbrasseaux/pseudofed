@@ -1,10 +1,14 @@
 
-// list of instances, in the future, this will be stored in browser cookies
-let fed_instances = ['mastodon.lol', 'hci.social'];
-// args for fetch function, should be updated
-const fetch_args = {method:"GET", referrerPolicy:"unsafe-url"};
+
 // temp url for testing purposes
 const url = `https://hci.social/api/v1/timelines/public?local=true&only_media=false`;
+
+// list of instances, in the future, this will be stored in browser cookies
+let fed_instances = ['hci.social'];
+// args for fetch function, should be updated
+const fetch_args = {method:"GET", referrerPolicy:"unsafe-url"};
+
+const data_field = document.getElementById('data');
 
 // convert base urls to full api urls, then to fetch promises
 fed_instances = fed_instances.map((value) => {
@@ -13,10 +17,22 @@ fed_instances = fed_instances.map((value) => {
 	return fetch(value, fetch_args);
 });
 
-// single fetch promise for testing
-fetch(url, fetch_args).then( async (data) => {
-	const json = await data.json();
-	console.log(json);
+const data_store = []
+
+fed_instances.forEach( (value) => {
+	value.then( async (data) => {
+		let y = await data.json();
+		data_store.push(y);
+	});
 });
 
-console.log(fed_instances);
+setTimeout(() => {
+	data_store.flat().forEach((value) => {
+		const content = value['content'];
+		const username = value['account']['username'];
+		data_field.innerHTML += `<h3>${username}</h3><p>${content}</p>`;
+	});	
+}, 3000);
+
+
+

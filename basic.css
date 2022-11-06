@@ -1,0 +1,19 @@
+#x1 {
+	background: lightgrey;
+}
+
+#x0 {
+	background: ghostwhite;
+}
+
+.userinfo {
+	font-size: 20px;
+}
+
+.username {
+	color: #9f9f9f;
+}
+
+.dispname {
+	color: #000000;
+}

@@ -15,23 +15,18 @@ fed_instances = fed_instances.map((value) => {
 	return fetch(value, fetch_args);
 });
 
-// fetch(url, fetch_args).then( async (data) => {
-// 	const y = await data;
-// 	console.log(y);
-// });
-
 const data_store = []
 
-// promise all generated fetches for page data
-// Promise.all(fed_instances).then( async (data) => {
-// 	const x = await data;
-// 	// console.log(x);
-// 	x.forEach((value) => {
-// 		data_store.push(value);
-// 	})
-// 	console.log(x);
-// });
+fed_instances.forEach( (value) => {
+	value.then( async (data) => {
+		let y = await data.json();
+		data_store.push(y);
+	});
+});
 
-console.log(data_store);
+setTimeout(() => {
+	console.log(data_store.flat());	
+}, 3000);
+
 
 
